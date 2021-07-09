@@ -1,0 +1,41 @@
+//* Servidor separado por metodos o por rutas. en este caso ocupo el /message.
+//* siempre para ocupar el servidor de node.js 
+//* Se intala una herramienta para que tire y levante el 
+//* server cada que guarde el archivo.
+-npm install - g nodemon
+    //* instalando body parcer
+    -
+    npm i body - parcer
+
+
+//* Añade express
+const express = require("express");
+//* Añade el body
+const bodyParser = require("body-parser");
+//*  Anñadir el router a la aplicacion de express
+app.use(router);
+
+const router = express.Router();
+var app = express();
+app.use(bodyParser);
+
+
+router.get("/message", function(req, res) {
+    res.send("Lista de mensaje");
+});
+router.post("/message", function(req, res) {
+    res.send("Mensaje añadido");
+});
+
+
+
+//* Lenguaje de programacion en el que se declara la variable app.
+// var app = express();
+// app.use("/", function(req, res) {
+//     res.send("hola");
+// });
+
+//*En este apartado se especifica la salida de node.js a un localhost
+//*     es decir ya se puede ejecutar en el navegador.
+app.listen(3000);
+console.log("La aplicacion esta escuhcando en http://localhost:3000");

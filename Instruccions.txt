@@ -1,0 +1,14 @@
+//* Version de Node js
+- node --version
+
+//* Empezar 
+- npm init
+e introducir los datos para comenzar. 
+
+//* Crear archivo .js
+
+//* instalar exxpress
+npm install express
+
+//* Enlazar el archivo con:
+const express = require("express");
