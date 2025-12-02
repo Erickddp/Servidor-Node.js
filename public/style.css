@@ -1,0 +1,91 @@
+body {
+    background-color: #121212;
+    color: #ffffff;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    margin: 0;
+    overflow: hidden; /* Prevent body scroll if scanlines overlay is large */
+}
+
+h1 {
+    color: #4caf50;
+    text-shadow: 0 0 10px rgba(76, 175, 80, 0.5);
+    z-index: 10; /* Ensure text is above scanlines if needed, or scanlines above text? Usually scanlines are top. */
+    position: relative;
+}
+
+.status {
+    font-size: 1.5em;
+    margin-bottom: 20px;
+    z-index: 10;
+    position: relative;
+}
+
+.terminal {
+    background-color: #000000;
+    color: #00ff00;
+    font-family: 'Courier New', Courier, monospace;
+    width: 80%;
+    height: 400px;
+    padding: 10px;
+    border: 2px solid #333;
+    border-radius: 5px;
+    overflow-y: scroll;
+    box-shadow: 0 0 20px rgba(0, 255, 0, 0.1);
+    z-index: 10;
+    position: relative;
+}
+
+.terminal p {
+    margin: 0;
+    line-height: 1.2;
+}
+
+/* CRT Scanline Effect */
+.scanlines {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: linear-gradient(
+        to bottom,
+        rgba(255, 255, 255, 0),
+        rgba(255, 255, 255, 0) 50%,
+        rgba(0, 0, 0, 0.2) 50%,
+        rgba(0, 0, 0, 0.2)
+    );
+    background-size: 100% 4px;
+    pointer-events: none;
+    z-index: 100;
+    animation: scanline-move 10s linear infinite;
+}
+
+/* Optional: Subtle flicker */
+.flicker {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(18, 16, 16, 0.1);
+    opacity: 0.1;
+    z-index: 99;
+    pointer-events: none;
+    animation: flicker 0.15s infinite;
+}
+
+@keyframes scanline-move {
+    0% { background-position: 0 0; }
+    100% { background-position: 0 100%; }
+}
+
+@keyframes flicker {
+    0% { opacity: 0.05; }
+    50% { opacity: 0.1; }
+    100% { opacity: 0.05; }
+}

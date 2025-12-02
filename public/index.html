@@ -4,45 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Server Status</title>
-    <style>
-        body {
-            background-color: #121212;
-            color: #ffffff;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-            margin: 0;
-        }
-        h1 {
-            color: #4caf50;
-            text-shadow: 0 0 10px rgba(76, 175, 80, 0.5);
-        }
-        .status {
-            font-size: 1.5em;
-            margin-bottom: 20px;
-        }
-        .terminal {
-            background-color: #000000;
-            color: #00ff00;
-            font-family: 'Courier New', Courier, monospace;
-            width: 80%;
-            height: 400px;
-            padding: 10px;
-            border: 2px solid #333;
-            border-radius: 5px;
-            overflow-y: scroll;
-            box-shadow: 0 0 20px rgba(0, 255, 0, 0.1);
-        }
-        .terminal p {
-            margin: 0;
-            line-height: 1.2;
-        }
-    </style>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
+
+    <div class="scanlines"></div>
+    <div class="flicker"></div>
 
     <h1>System Status: Online</h1>
     <div class="status" id="connection-status">Connecting to socket...</div>
@@ -69,6 +36,18 @@
 
         socket.on('log', (data) => {
             const p = document.createElement('p');
+
+            // Color coding
+            if (data.includes('[WARN]')) {
+                p.style.color = 'yellow';
+            } else if (data.includes('[HACK]')) {
+                p.style.color = 'red';
+            } else if (data.includes('[SYSTEM]')) {
+                p.style.color = '#00ffff'; // Cyan
+            } else if (data.includes('[INFO]')) {
+                p.style.color = '#00ff00'; // Green
+            }
+
             p.textContent = `> ${data}`;
             terminal.appendChild(p);
             terminal.scrollTop = terminal.scrollHeight;

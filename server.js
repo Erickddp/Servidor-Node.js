@@ -52,6 +52,25 @@ io.on('connection', (socket) => {
     });
 });
 
+// Live Simulation Mode
+const logMessages = [
+    { type: 'INFO', msg: 'Compiling assets...' },
+    { type: 'INFO', msg: 'Optimization pass complete.' },
+    { type: 'WARN', msg: 'Database Ping: 215ms' },
+    { type: 'WARN', msg: 'High CPU usage detected: 85%' },
+    { type: 'SYSTEM', msg: 'Allocating memory block 0x4F...' },
+    { type: 'SYSTEM', msg: 'Garbage collection started.' },
+    { type: 'HACK', msg: 'Unauthorized access attempt blocked IP: 192.168.1.5' },
+    { type: 'HACK', msg: 'Brute force attack detected on port 22' },
+    { type: 'HACK', msg: 'SQL Injection attempt mitigated' }
+];
+
+setInterval(() => {
+    const randomLog = logMessages[Math.floor(Math.random() * logMessages.length)];
+    const message = `[${randomLog.type}] ${randomLog.msg}`;
+    console.log(message);
+}, 2000);
+
 const PORT = 3000;
 server.listen(PORT, () => {
     console.log(`La aplicacion esta escuchando en http://localhost:${PORT}`);
