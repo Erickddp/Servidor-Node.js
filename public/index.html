@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Server Status</title>
+    <style>
+        body {
+            background-color: #121212;
+            color: #ffffff;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+        h1 {
+            color: #4caf50;
+            text-shadow: 0 0 10px rgba(76, 175, 80, 0.5);
+        }
+        .status {
+            font-size: 1.5em;
+            margin-bottom: 20px;
+        }
+        .terminal {
+            background-color: #000000;
+            color: #00ff00;
+            font-family: 'Courier New', Courier, monospace;
+            width: 80%;
+            height: 400px;
+            padding: 10px;
+            border: 2px solid #333;
+            border-radius: 5px;
+            overflow-y: scroll;
+            box-shadow: 0 0 20px rgba(0, 255, 0, 0.1);
+        }
+        .terminal p {
+            margin: 0;
+            line-height: 1.2;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>System Status: Online</h1>
+    <div class="status" id="connection-status">Connecting to socket...</div>
+
+    <div class="terminal" id="terminal">
+        <!-- Logs will appear here -->
+    </div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        const socket = io();
+        const terminal = document.getElementById('terminal');
+        const connectionStatus = document.getElementById('connection-status');
+
+        socket.on('connect', () => {
+            connectionStatus.textContent = 'Connected to server stream';
+            connectionStatus.style.color = '#4caf50';
+        });
+
+        socket.on('disconnect', () => {
+            connectionStatus.textContent = 'Disconnected from server';
+            connectionStatus.style.color = '#f44336';
+        });
+
+        socket.on('log', (data) => {
+            const p = document.createElement('p');
+            p.textContent = `> ${data}`;
+            terminal.appendChild(p);
+            terminal.scrollTop = terminal.scrollHeight;
+        });
+
+        socket.on('error-log', (data) => {
+            const p = document.createElement('p');
+            p.textContent = `ERROR> ${data}`;
+            p.style.color = '#ff5252';
+            terminal.appendChild(p);
+            terminal.scrollTop = terminal.scrollHeight;
+        });
+    </script>
+
+</body>
+</html>
